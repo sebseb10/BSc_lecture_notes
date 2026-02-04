@@ -10,7 +10,7 @@ Install VirtualBox and Vagrant on your computer.
 **Note:** VirtualBox cannot be run in a VirtualBox VM. Since we are using Vagrant here to provide VirtualBox virtual machines, it means that you should install Vagrant and related plugins directly in your host OS (Windows/MacOS) if you are running Linux in a virtual machine already.
 
 
-#### Install the Hypervisor (VirtualBox)
+#### Install the Hypervisor (VirtualBox) in Linux
 
 To install VirtualBox you can use sudo:
 
@@ -27,6 +27,8 @@ wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update && sudo apt install vagrant
 ```
+
+#### Install Vagrant Plugins
 
 After installing Vagrant, we need to install a VirtualBox plugin that we will need later:
 ```bash
@@ -153,14 +155,14 @@ That is, you can quickly setup development environments for many operating syste
 ```bash
 $ mkdir vm_freebsd
 $ cd vm_freebsd
-$ vagrant init freebsd/FreeBSD-12.3-STABLE
+$ vagrant init bento/freebsd-14
 $ vagrant up
 ```
 
 ```bash
 $ mkdir vm_win
 $ cd vm
-$ vagrant init senglin/win-10-enterprise-vs2015community
+$ vagrant init stromweld/windows-11
 $ vagrant up
 ```
 
@@ -192,3 +194,56 @@ Bringing machine 'webserver' up with 'virtualbox' provider...
 
 If everything starts error-free, you will find the running _ITU-MiniTwit_ at http://192.168.20.3:5000. With `vagrant ssh webserver` you can access the machine with the frontend code.
 
+
+
+## Vagrant on other hosts (MacOS/Windows)
+
+### MacOS
+
+The following expects you to have the ["homebrew" package manager installed and setup](https://brew.sh/).
+
+
+- Install VirtualBox:
+```bash
+brew install --cask virtualbox
+```
+- Install Vagrant as described on the [tool's documentation page](https://developer.hashicorp.com/vagrant/install).
+```bash
+brew tap hashicorp/tap
+brew install hashicorp/tap/hashicorp-vagrant
+```
+- Then continue installing the Vagrant plugins as described [above](#install-vagrant-plugins)
+
+Note, in case you are on an ARM-based Mac, the virtual machines that you can use via virtualbox are all ARM-based too.
+The reason is that VirtualBox is a hypervisor, not an emulator.
+If you need to handle Intel/AMD-based virtual machines on such a Mac, then you have to switch to using a machine emulator, such as [`qemu`](https://www.qemu.org/).
+Likely the easiest way to use `qemu` is via [UTM](https://mac.getutm.app/), which is an application that wraps `qemu`.
+
+```bash
+brew install --cask utm
+```
+
+You can use Vagrant with UTM too via the [respective provider](https://naveenrajm7.github.io/vagrant_utm/):
+```bash
+vagrant plugin install vagrant_utm
+```
+
+
+In case you decided earlier to rely on [VMWare Fusion to manage virtual machines on your Mac](https://dev.to/houssambourkane/run-vagrant-vms-in-a-m1m2m3-macos-chip-2p3l), you can use Vagrant with that too via the respective provider:
+```bash
+vagrant plugin install vagrant-vmware-desktop
+```
+
+### Windows
+
+The following expects you to have the ["chocolatey" package manager installed and setup](https://chocolatey.org/install).
+
+- Install VirtualBox:
+```
+choco install virtualbox
+```
+- Install Vagrant
+```
+choco install vagrant
+```
+- Then continue installing the Vagrant plugins as described [above](#install-vagrant-plugins)
