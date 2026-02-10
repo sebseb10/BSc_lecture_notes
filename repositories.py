@@ -80,6 +80,7 @@ GROUP_REPOS = [
         "group l",
         "Deploy and pray",
         ["https://github.com/ITU-DEVOPS2026-GROUP-l/deploy_and_pray"],
+        ["https://github.com/ITU-DEVOPS2026-GROUP-l/ITU-MiniTwit"],
         "http(s)://<TBA>/<FrontEndURL>",
         "http(s)://<TBA>/<APIURL>",
     ],
